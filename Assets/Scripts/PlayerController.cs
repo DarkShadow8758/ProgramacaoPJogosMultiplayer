@@ -12,19 +12,48 @@ public class PlayerController : NetworkBehaviour
     private CharacterController controller;
     private Animator animator;
 
-    private Vector3 velocity;
-    private bool isGrounded;
+    //private Vector3 velocity;
+    //private bool isGrounded;
 
-    void Start()
+    public float mouseSensitivity = 100f;
+    public float rotationSmoothSpeed = 10f;
+
+    private float yaw;
+
+    void Awake()
     {
         controller = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
+
+        if (controller == null)
+        {
+            Debug.LogError("PlayerController requires a CharacterController component", this);
+        }
+
+        if (animator == null)
+        {
+            Debug.LogError("PlayerController requires an Animator component", this);
+        }
+
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     public override void FixedUpdateNetwork()
     {
+        if (controller == null || animator == null)
+        {
+            return;
+        }
+
         if (HasStateAuthority)
         {
+            float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Runner.DeltaTime;
+            yaw += mouseX;
+
+            Quaternion targetRotation = Quaternion.Euler(0f, yaw, 0f);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSmoothSpeed * Runner.DeltaTime);
+
             /*isGrounded = controller.isGrounded;
 
             if (isGrounded && velocity.y < 0)
@@ -33,19 +62,19 @@ public class PlayerController : NetworkBehaviour
                 animator.SetBool("IsJumping", false);
             }*/
 
-            float x = Input.GetAxis("Horizontal");
-            float z = Input.GetAxis("Vertical");
+            float x = Input.GetAxisRaw("Horizontal");
+            float z = Input.GetAxisRaw("Vertical");
 
-            //Vector3 move = transform.right * x + transform.forward * z;
-            Vector3 direction = new Vector3(x, 0, z);
-            if (direction.magnitude >0.1f)
+            Vector3 inputDirection = new Vector3(x, 0, z);
+            float inputMagnitude = inputDirection.magnitude;
+
+            if (inputMagnitude > 0.01f)
             {
-                controller.Move(direction * speed * Runner.DeltaTime);
-                transform.rotation = Quaternion.LookRotation(direction);
+                inputDirection = inputDirection.normalized;
+                Vector3 worldDir = transform.TransformDirection(inputDirection);
+                controller.Move(worldDir * speed * Runner.DeltaTime);
             }
 
-            //controller.Move(move * speed * Time.deltaTime);
-            
             float moveSpeed = new Vector2(x, z).magnitude;
             animator.SetFloat("Speed", moveSpeed);
             /*
