@@ -20,10 +20,14 @@ public class PlayerController : NetworkBehaviour
 
     private float yaw;
 
+    [Header("UI")]
+    private UIController uiController; 
+
     void Awake()
     {
         controller = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
+        uiController = FindAnyObjectByType<UIController>();
 
         if (controller == null)
         {
@@ -86,6 +90,15 @@ public class PlayerController : NetworkBehaviour
             
             velocity.y += gravity * Runner.DeltaTime;
             controller.Move(velocity * Runner.DeltaTime);*/
+        }
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Item"))
+        {
+            Destroy(other.gameObject);
+            uiController.IncreaseItens();
         }
     }
 }
