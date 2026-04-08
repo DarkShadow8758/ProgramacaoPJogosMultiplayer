@@ -1,20 +1,36 @@
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
+using TMPro;
+using Fusion;
 
 public class UIController : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI tmpItens;
-    private int itensQtd;
+
     void Update()
     {
-        
+        UpdateScoreboard();
     }
 
-    public void IncreaseItens()
+    void UpdateScoreboard()
     {
-        itensQtd++;
-        tmpItens.text = "Itens Count: " + itensQtd.ToString();
+        string placar = "=== PLACAR ===\n";
+
+        NetworkObject[] players = FindObjectsOfType<NetworkObject>();
+
+        int i = 1;
+
+        foreach (var obj in players)
+        {
+            PlayerController player = obj.GetComponent<PlayerController>();
+
+            if (player != null)
+            {
+                string you = obj.HasInputAuthority ? " (VOCÊ)" : "";
+                placar += $"Player {i}{you}: {player.Score}\n";
+                i++;
+            }
+        }
+
+        tmpItens.text = placar;
     }
 }

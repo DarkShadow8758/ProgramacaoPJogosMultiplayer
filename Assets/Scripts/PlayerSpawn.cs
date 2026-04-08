@@ -3,14 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using Fusion;
 
-public class PlayerSpawn : SimulationBehaviour, IPlayerJoined
+public class PlayerSpawner : SimulationBehaviour, IPlayerJoined
 {
     public GameObject playerPrefab;
+    public GameObject item;
     public void PlayerJoined(PlayerRef player)
     {
         if (player == Runner.LocalPlayer)
         {
-            Runner.Spawn(playerPrefab, Vector2.zero, Quaternion.identity, player);
+            	NetworkObject objetoDaRede = Runner.Spawn(playerPrefab, Vector3.zero, Quaternion.identity, player);
+	            Runner.SetPlayerObject(player, objetoDaRede);
         }
     }
 }
+

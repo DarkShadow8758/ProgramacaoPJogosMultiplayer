@@ -10,12 +10,11 @@ GameObject:
   m_Component:
   - component: {fileID: 8643016218987946364}
   - component: {fileID: 3157075534731953398}
-  - component: {fileID: 3898259216158051620}
   - component: {fileID: 5187869816844458465}
-  - component: {fileID: 6388517640698131374}
   - component: {fileID: 8665137556972043594}
+  - component: {fileID: -5455074665022052276}
   m_Layer: 0
-  m_Name: Bones_skull_01
+  m_Name: ItemSkull
   m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -76,28 +75,6 @@ LODGroup:
     renderers:
     - renderer: {fileID: 2977714261650511142}
   m_Enabled: 1
---- !u!64 &3898259216158051620
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1430753786043968487}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 4300010, guid: abc00000000012539910583205616504, type: 3}
 --- !u!65 &5187869816844458465
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -119,19 +96,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.24816704, y: 0.37640366, z: 0.29856798}
   m_Center: {x: -0.09175746, y: 0.041505046, z: 0.028189838}
---- !u!114 &6388517640698131374
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1430753786043968487}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a9c60c05aa47aa64fad229fcc1e156cd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rotationSpeed: 100
 --- !u!114 &8665137556972043594
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -149,8 +113,23 @@ MonoBehaviour:
   Flags: 262145
   NestedObjects: []
   NetworkedBehaviours:
-  - {fileID: 6388517640698131374}
+  - {fileID: -5455074665022052276}
   ForceRemoteRenderTimeframe: 0
+--- !u!114 &-5455074665022052276
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1430753786043968487}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b1897913124ff84c80c7f309ca5f16b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _IsCollected:
+    _value: 0
+  rotationSpeed: 100
 --- !u!1 &2420076891674832131
 GameObject:
   m_ObjectHideFlags: 0
